@@ -47,12 +47,12 @@ services.UseSanitizedHttpLogger(o => o.RequestUriReplacements.Add("(?i)apikey=[^
 ```json
 {
   "SanitizedHttpLogger": {
-  "RequestUriReplacements": [
-    {
-    "Pattern": "(?i)apikey=[^&]*",
-    "Replacement": "apikey=xxx"
-    }
-  ]
+    "RequestUriReplacements": [
+      {
+        "Pattern": "(?i)apikey=[^&]*",
+        "Replacement": "apikey=xxx"
+      }
+    ]
   }
 }
 ```
