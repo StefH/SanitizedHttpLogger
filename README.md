@@ -44,22 +44,22 @@ services.UseSanitizedHttpLogger(o => o.RequestUriReplacements.Add("(?i)apikey=[^
 ```
 
 ### Via Configuration
-``` json
+```json
 {
   "SanitizedHttpLogger": {
-	"RequestUriReplacements": [
-	  {
-		"Pattern": "(?i)apikey=[^&]*",
-		"Replacement": "apikey=xxx"
-	  }
-	]
+  "RequestUriReplacements": [
+    {
+    "Pattern": "(?i)apikey=[^&]*",
+    "Replacement": "apikey=xxx"
+    }
+  ]
   }
 }
 ```
 
 ```csharp
 services.Configure<SanitizedHttpLoggerOptions>(Configuration);
-```	
+```
 
 ---
 
