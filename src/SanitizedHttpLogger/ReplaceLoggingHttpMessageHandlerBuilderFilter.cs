@@ -25,7 +25,9 @@ internal class ReplaceLoggingHttpMessageHandlerBuilderFilter : IHttpMessageHandl
 
             var loggerName = !string.IsNullOrEmpty(builder.Name) ? builder.Name : "Default";
             var innerLogger = _loggerFactory.CreateLogger($"System.Net.Http.HttpClient.{loggerName}.ClientHandler");
-            var handlersToRemove = builder.AdditionalHandlers.Where(delegatingHandler => delegatingHandler is LoggingHttpMessageHandler or LoggingScopeHttpMessageHandler);
+            var handlersToRemove = builder.AdditionalHandlers
+                .Where(delegatingHandler => delegatingHandler is LoggingHttpMessageHandler or LoggingScopeHttpMessageHandler)
+                .ToArray();
             foreach (var delegatingHandler in handlersToRemove)
             {
                 builder.AdditionalHandlers.Remove(delegatingHandler);
