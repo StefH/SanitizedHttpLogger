@@ -49,6 +49,7 @@ services.UseSanitizedHttpLogger(o => o.RequestUriReplacements.Add("(?i)apikey=[^
 	]
   }
 }
+```
 
 ```csharp
 services.Configure<SanitizedHttpLoggerOptions>(Configuration);
