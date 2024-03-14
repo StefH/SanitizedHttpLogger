@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Http;
-using SanitizedHttpLogger.Logging;
+using SanitizedHttpLogger;
 using SanitizedHttpLogger.Options;
 using SanitizedHttpLogger.Services;
 using Stef.Validation;

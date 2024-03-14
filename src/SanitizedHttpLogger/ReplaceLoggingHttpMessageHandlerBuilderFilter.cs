@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using SanitizedHttpLogger.Services;
 using Stef.Validation;
 
-namespace SanitizedHttpLogger.Logging;
+namespace SanitizedHttpLogger;
 
 internal class ReplaceLoggingHttpMessageHandlerBuilderFilter : IHttpMessageHandlerBuilderFilter
 {
