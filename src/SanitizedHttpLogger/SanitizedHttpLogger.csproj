@@ -12,7 +12,7 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/StefH/SanitizedHttpLogger</RepositoryUrl>
-		<PackageTags>HTTP;Logging;Sanitize;Request;Uri;RequestUri;Replace</PackageTags>
+		<PackageTags>HTTP;Logging;Sanitize;Request;Uri;RequestUri;Replace;Regex</PackageTags>
 		<Description>Minimizes and sanitizes log output produced by HttpClient</Description>
 		<PackageReadmeFile>PackageReadme.md</PackageReadmeFile>
 	</PropertyGroup>
