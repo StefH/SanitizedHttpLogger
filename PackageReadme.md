@@ -1,9 +1,3 @@
-# SanitizedHttpLogger
-Sanitize and reduce the default HttpClient log statements from 4 to 1 per request. This project is based on [MinimalHttpLogger](https://github.com/johnkors/MinimalHttpLogger).
-
-## NuGet
-[![NuGet Badge](https://buildstats.info/nuget/SanitizedHttpLogger)](https://www.nuget.org/packages/SanitizedHttpLogger) 
-
 ## How does it work
 
 It's not possible to configure the log pattern of the `Microsoft.Extensions.Http` based `HttpClient` loggers. It has to be replaced.
@@ -59,13 +53,3 @@ services.UseSanitizedHttpLogger(o => o.RequestUriReplacements.Add("(?i)apikey=[^
 ```csharp
 services.Configure<SanitizedHttpLoggerOptions>(Configuration);
 ```	
-
----
-
-## References
-- https://github.com/johnkors/MinimalHttpLogger
-- https://josef.codes/customize-the-httpclient-logging-dotnet-core
-
-## Attribution
-- <a href="https://www.flaticon.com/free-icons/http" title="http icons">Http icons created by Graphix's Art - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/logs" title="logs icons">Logs icons created by Graphix's Art - Flaticon</a>
