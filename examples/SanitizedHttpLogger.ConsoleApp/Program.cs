@@ -40,18 +40,25 @@ static class Program
 
         var mockServer = WireMockServer.Start();
         mockServer
-            .Given(Request.Create().WithPath("/*")
+            .Given(Request.Create().WithPath("/abc")
                 .UsingGet()
             )
             .RespondWith(Response.Create()
                 .WithBody("Test")
                 .WithStatusCode(HttpStatusCode.OK)
-                .WithTransformer()
+            );
+        mockServer
+            .Given(Request.Create().WithPath("/error")
+                .UsingGet()
+            )
+            .RespondWith(Response.Create()
+                .WithStatusCode(HttpStatusCode.InternalServerError)
             );
 
         services.AddHttpClient<Worker>((_, o) =>
         {
             o.BaseAddress = new Uri(mockServer.Urls[0]);
+            // o.BaseAddress = new Uri("https://_");
         });
         
         services.UseSanitizedHttpLogger(o => o.RequestUriReplacements.Add("(?i)apikey=[^&]*", "apikey=xxx"));

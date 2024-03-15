@@ -16,26 +16,60 @@ internal class SanitizedLogger : DelegatingHandler
         _requestUriReplacer = Guard.NotNull(requestUriReplacer);
     }
 
+#if !(NETSTANDARD2_0 || NETSTANDARD2_1)
+    protected override HttpResponseMessage Send(HttpRequestMessage request, CancellationToken cancellationToken)
+    {
+        Guard.NotNull(request);
+
+        var sanitizedRequestUri = SanitizeRequestUri(request);
+        var stopwatch = ValueStopwatch.StartNew();
+
+        try
+        {
+            var response = base.Send(request, cancellationToken);
+            return LogInfo(request, sanitizedRequestUri, response, stopwatch);
+        }
+        catch (Exception exception)
+        {
+            LogWarning(exception, request, sanitizedRequestUri, stopwatch);
+            throw;
+        }
+    }
+#endif
+
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
         Guard.NotNull(request);
 
-        var requestUri = request.RequestUri?.ToString(); // SendAsync modifies req uri in case of redirects (?!), so make a local copy
-        var sanitizedRequestUri = _requestUriReplacer.Replace(requestUri);
-
+        var sanitizedRequestUri = SanitizeRequestUri(request);
         var stopwatch = ValueStopwatch.StartNew();
 
         try
         {
             var response = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
-            _logger.LogInformation("{Method} {SanitizedUri} - {StatusCode} in {ElapsedTime}ms", request.Method, sanitizedRequestUri, response.StatusCode, stopwatch.GetElapsedTime().TotalMilliseconds);
-            return response;
+            return LogInfo(request, sanitizedRequestUri, response, stopwatch);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
-            _logger.LogInformation("{Method} {SanitizedUri} failed to respond in {ElapsedTime}ms", request.Method, sanitizedRequestUri, stopwatch.GetElapsedTime().TotalMilliseconds);
+            LogWarning(exception, request, sanitizedRequestUri, stopwatch);
             throw;
         }
+    }
+
+    private string? SanitizeRequestUri(HttpRequestMessage request)
+    {
+        return _requestUriReplacer.Replace(request.RequestUri?.ToString());
+    }
+
+    private HttpResponseMessage LogInfo(HttpRequestMessage request, string? sanitizedRequestUri, HttpResponseMessage response, ValueStopwatch stopwatch)
+    {
+        _logger.LogInformation("{Method} {SanitizedUri} - {StatusCode} in {ElapsedTime}ms", request.Method, sanitizedRequestUri, (int) response.StatusCode, stopwatch.GetElapsedTime().TotalMilliseconds);
+        return response;
+    }
+
+    private void LogWarning(Exception exception, HttpRequestMessage request, string? sanitizedRequestUri, ValueStopwatch stopwatch)
+    {
+        _logger.LogWarning(exception, "{Method} {SanitizedUri} failed to respond in {ElapsedTime}ms", request.Method, sanitizedRequestUri, stopwatch.GetElapsedTime().TotalMilliseconds);
     }
 
     /// <summary>

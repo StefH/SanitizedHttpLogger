@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<Version>0.0.1-preview-04</Version>
-		<TargetFrameworks>netstandard2.0;net6.0;net7.0;net8.0</TargetFrameworks>
+		<Version>0.0.1-preview-05</Version>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net6.0;net7.0;net8.0</TargetFrameworks>
 		<ApplicationIcon>../../resources/icon.ico</ApplicationIcon>
 		<Copyright>Copyright © 2024 Stef Heyenrath</Copyright>
 		<Authors>Stef Heyenrath</Authors>
@@ -39,7 +39,7 @@
 		<PackageReference Include="Stef.Validation.Options" Version="0.1.1" />
 	</ItemGroup>
 
-	<ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+	<ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1' ">
 		<PackageReference Include="Microsoft.Extensions.Http" Version="3.1.0" />
 		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.0" />
 	</ItemGroup>

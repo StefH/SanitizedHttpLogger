@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -20,10 +21,16 @@ internal class Worker
     {
         var httpClient = _factory.CreateClient(nameof(Worker));
         
-        var url = "/abc?apikey=my-secret-key";
-        _logger.LogInformation("Requesting {Url}", url);
-
-        var result = await httpClient.GetStringAsync(url, cancellationToken);
+        var result = await httpClient.GetStringAsync("/abc?apikey=my-secret-key", cancellationToken);
         _logger.LogInformation("Result: {Result}", result);
+
+        try
+        {
+            await httpClient.GetStringAsync("/error?apikey=my-secret-key", cancellationToken);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Oops");
+        }
     }
 }
