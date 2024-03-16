@@ -61,7 +61,7 @@ static class Program
             // o.BaseAddress = new Uri("https://_");
         });
         
-        services.UseSanitizedHttpLogger(o => o.RequestUriReplacements.Add("(?i)apikey=[^&]*", "apikey=xxx"));
+        services.UseSanitizedHttpLogger(configuration);
         
         services.AddSingleton<Worker>();
 

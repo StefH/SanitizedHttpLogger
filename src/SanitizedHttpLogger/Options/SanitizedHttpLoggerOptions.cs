@@ -5,5 +5,5 @@ namespace SanitizedHttpLogger.Options;
 [PublicAPI]
 public class SanitizedHttpLoggerOptions
 {
-    public IDictionary<string, string> RequestUriReplacements { get; set; } = new Dictionary<string, string>();
+    public Dictionary<string, string> RequestUriReplacements { get; set; } = new();
 }
