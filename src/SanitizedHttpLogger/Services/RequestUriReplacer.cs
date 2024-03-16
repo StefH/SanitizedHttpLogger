@@ -8,19 +8,19 @@ namespace SanitizedHttpLogger.Services;
 
 internal class RequestUriReplacer : IRequestUriReplacer
 {
-    private readonly ConcurrentDictionary<Lazy<Regex>, string> _pathAndQueryReplacements = new();
+    private readonly ConcurrentDictionary<Lazy<Regex>, string> _requestUriReplacements = new();
 
     public RequestUriReplacer(IOptions<SanitizedHttpLoggerOptions> options)
     {
-        var requestPathAndQueryReplacements = Guard.NotNull(options.Value).RequestUriReplacements;
-        foreach (var replacement in requestPathAndQueryReplacements)
+        var requestUriReplacements = Guard.NotNull(options.Value).RequestUriReplacements;
+        foreach (var replacement in requestUriReplacements)
         {
-            _pathAndQueryReplacements.TryAdd(new Lazy<Regex>(() => new Regex(replacement.Key, RegexOptions.Compiled, TimeSpan.FromMilliseconds(100))), replacement.Value);
+            _requestUriReplacements.TryAdd(new Lazy<Regex>(() => new Regex(replacement.Key, RegexOptions.Compiled, TimeSpan.FromMilliseconds(100))), replacement.Value);
         }
     }
 
     public string? Replace(string? uri)
     {
-        return uri == null ? null : _pathAndQueryReplacements.Aggregate(uri, (current, item) => item.Key.Value.Replace(current, item.Value));
+        return uri == null ? null : _requestUriReplacements.Aggregate(uri, (current, item) => item.Key.Value.Replace(current, item.Value));
     }
 }
