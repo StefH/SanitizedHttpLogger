@@ -4,8 +4,7 @@ It's not possible to configure the log pattern of the `Microsoft.Extensions.Http
 This package replaces the default loggers with a logger that:
 
 1. Reduces the number of log statements on `HttpClient` requests from 4 to 2
-2. Logs only 2 log statement
-3. Makes sure that sensitive information like api-keys or tokens in the request-Uri can be sanitized using configurable Regex patterns
+2. Makes sure that sensitive information like api-keys or tokens in the request-Uri can be sanitized using configurable Regex patterns
 
 ### Change in logging output
 
