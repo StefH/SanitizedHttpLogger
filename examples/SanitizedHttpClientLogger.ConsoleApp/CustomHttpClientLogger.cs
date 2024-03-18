@@ -4,7 +4,7 @@ using Microsoft.Extensions.Http.Logging;
 using Microsoft.Extensions.Logging;
 using Stef.Validation;
 
-namespace SanitizedHttpLogger.ConsoleApp;
+namespace SanitizedHttpClientLogger.ConsoleApp;
 
 public class CustomHttpClientLogger : IHttpClientLogger
 {

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.Extensions.Logging;
-using SanitizedHttpLogger.Services;
+using SanitizedHttpClientLogger.Services;
 
 namespace SanitizedHttpLogger;
 
@@ -62,13 +62,13 @@ internal class SanitizedLogger : DelegatingHandler
 
     private HttpResponseMessage LogInfo(HttpRequestMessage request, string? sanitizedRequestUri, HttpResponseMessage response, ValueStopwatch stopwatch)
     {
-        _logger.LogInformation("{Method} {SanitizedUri} - {StatusCode} in {ElapsedTime}ms", request.Method, sanitizedRequestUri, (int)response.StatusCode, stopwatch.GetElapsedTime().TotalMilliseconds);
+        _logger.LogInformation("{Method} {SanitizedUri} - {StatusCode} in {ElapsedTime}ms", request.Method, sanitizedRequestUri, (int)response.StatusCode, stopwatch.GetElapsedTime().TotalMilliseconds.ToString("F1"));
         return response;
     }
 
     private void LogWarning(Exception exception, HttpRequestMessage request, string? sanitizedRequestUri, ValueStopwatch stopwatch)
     {
-        _logger.LogWarning(exception, "{Method} {SanitizedUri} failed to respond in {ElapsedTime}ms", request.Method, sanitizedRequestUri, stopwatch.GetElapsedTime().TotalMilliseconds);
+        _logger.LogWarning(exception, "{Method} {SanitizedUri} failed to respond in {ElapsedTime}ms", request.Method, sanitizedRequestUri, stopwatch.GetElapsedTime().TotalMilliseconds.ToString("F1"));
     }
 
     #region ValueStopwatch

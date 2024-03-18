@@ -5,14 +5,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SanitizedHttpClientLogger.ConsoleApp;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
 
-namespace SanitizedHttpLogger.ConsoleApp;
+namespace SanitizedHttpClientLogger.ConsoleApp;
 
 static class Program
 {
@@ -60,10 +59,8 @@ static class Program
         {
             o.BaseAddress = new Uri(mockServer.Urls[0]);
             // o.BaseAddress = new Uri("https://_");
-        });
-
-        services.UseSanitizedHttpLogger(configuration);
-
+        }).ConfigureSanitizedLogging(configuration);
+        
         services.AddSingleton<Worker>();
 
         return services.BuildServiceProvider();

@@ -1,4 +1,4 @@
-﻿namespace SanitizedHttpLogger.Services;
+﻿namespace SanitizedHttpClientLogger.Services;
 
 internal interface IRequestUriReplacer
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Http;
 using Microsoft.Extensions.Http.Logging;
 using Microsoft.Extensions.Logging;
-using SanitizedHttpLogger.Services;
+using SanitizedHttpClientLogger.Services;
 
 namespace SanitizedHttpLogger;
 

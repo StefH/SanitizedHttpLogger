@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
-namespace SanitizedHttpLogger.ConsoleApp;
+namespace SanitizedHttpClientLogger.ConsoleApp;
 
 internal class Worker
 {

@@ -23,15 +23,15 @@ After:
 info: GET https://my.api.com/v1/status?apikey=xxx - 200 in 186.4883ms
 ```
 
-## Install
+### Install
 
 ```sh
 $ dotnet add package SanitizedHttpLogger
 ```
 
-## Example Usage
+### Usage
 
-### Via Options
+#### Via Options
 ```csharp
 // This regex pattern will match any part of a string that starts with "apikey=" (in a case-insensitive manner)
 // followed by any number of characters that are not an ampersand.
@@ -40,7 +40,7 @@ services.UseSanitizedHttpLogger(o =>
 );
 ```
 
-### Via Configuration
+#### Via Configuration
 ```json
 {
   "SanitizedHttpLoggerOptions": {
@@ -53,4 +53,4 @@ services.UseSanitizedHttpLogger(o =>
 
 ```csharp
 services.Configure<SanitizedHttpLoggerOptions>(Configuration);
-```  
+```

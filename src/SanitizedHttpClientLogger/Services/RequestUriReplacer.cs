@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Extensions.Options;
 using SanitizedHttpLogger.Options;
 
-namespace SanitizedHttpLogger.Services;
+namespace SanitizedHttpClientLogger.Services;
 
 internal class RequestUriReplacer : IRequestUriReplacer
 {
