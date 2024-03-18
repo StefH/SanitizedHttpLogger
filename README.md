@@ -117,11 +117,11 @@ services.Configure<SanitizedHttpLoggerOptions>(Configuration);
 
 ---
 
-## References
+## :books: References
 - https://github.com/johnkors/MinimalHttpLogger
 - https://josef.codes/customize-the-httpclient-logging-dotnet-core
 
 
-## Attribution
+## :clap: Attribution
 - <a href="https://www.flaticon.com/free-icons/http" title="http icons">Http icons created by Graphix's Art - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/logs" title="logs icons">Logs icons created by Graphix's Art - Flaticon</a>
