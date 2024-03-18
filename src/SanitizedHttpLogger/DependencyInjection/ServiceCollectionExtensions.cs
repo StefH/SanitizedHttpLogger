@@ -1,11 +1,9 @@
-﻿using JetBrains.Annotations;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Http;
 using SanitizedHttpLogger;
 using SanitizedHttpLogger.Options;
 using SanitizedHttpLogger.Services;
-using Stef.Validation;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;

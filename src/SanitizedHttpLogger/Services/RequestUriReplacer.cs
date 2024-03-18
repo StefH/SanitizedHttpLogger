@@ -2,7 +2,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Options;
 using SanitizedHttpLogger.Options;
-using Stef.Validation;
 
 namespace SanitizedHttpLogger.Services;
 

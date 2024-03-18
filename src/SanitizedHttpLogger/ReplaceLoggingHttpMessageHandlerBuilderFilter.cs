@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Http.Logging;
 using Microsoft.Extensions.Logging;
 using SanitizedHttpLogger.Services;
-using Stef.Validation;
 
 namespace SanitizedHttpLogger;
 

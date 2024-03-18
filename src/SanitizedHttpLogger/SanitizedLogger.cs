@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 using SanitizedHttpLogger.Services;
-using Stef.Validation;
 
 namespace SanitizedHttpLogger;
 
@@ -16,7 +15,7 @@ internal class SanitizedLogger : DelegatingHandler
         _requestUriReplacer = Guard.NotNull(requestUriReplacer);
     }
 
-#if !(NETSTANDARD2_0 || NETSTANDARD2_1)
+#if !(NETSTANDARD2_0 || NETSTANDARD2_1 || NET48)
     protected override HttpResponseMessage Send(HttpRequestMessage request, CancellationToken cancellationToken)
     {
         Guard.NotNull(request);
@@ -63,7 +62,7 @@ internal class SanitizedLogger : DelegatingHandler
 
     private HttpResponseMessage LogInfo(HttpRequestMessage request, string? sanitizedRequestUri, HttpResponseMessage response, ValueStopwatch stopwatch)
     {
-        _logger.LogInformation("{Method} {SanitizedUri} - {StatusCode} in {ElapsedTime}ms", request.Method, sanitizedRequestUri, (int) response.StatusCode, stopwatch.GetElapsedTime().TotalMilliseconds);
+        _logger.LogInformation("{Method} {SanitizedUri} - {StatusCode} in {ElapsedTime}ms", request.Method, sanitizedRequestUri, (int)response.StatusCode, stopwatch.GetElapsedTime().TotalMilliseconds);
         return response;
     }
 
@@ -72,6 +71,7 @@ internal class SanitizedLogger : DelegatingHandler
         _logger.LogWarning(exception, "{Method} {SanitizedUri} failed to respond in {ElapsedTime}ms", request.Method, sanitizedRequestUri, stopwatch.GetElapsedTime().TotalMilliseconds);
     }
 
+    #region ValueStopwatch
     /// <summary>
     /// Copied from https://github.com/dotnet/aspnetcore/blob/main/src/Shared/ValueStopwatch/ValueStopwatch.cs
     /// </summary>
@@ -112,4 +112,5 @@ internal class SanitizedLogger : DelegatingHandler
 #endif
         }
     }
+    #endregion
 }
