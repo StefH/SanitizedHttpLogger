@@ -19,7 +19,7 @@ internal class SanitizedLogger : IHttpClientLogger
     {
         Guard.NotNull(request);
 
-        _logger.LogInformation("Sending '{Method}' to '{SanitizedUri}'", request.Method, SanitizeRequestUri(request));
+        _logger.LogInformation("Sending HTTP request {Method} {SanitizedUri}", request.Method, SanitizeRequestUri(request));
 
         return null;
     }
@@ -29,14 +29,14 @@ internal class SanitizedLogger : IHttpClientLogger
         Guard.NotNull(request);
         Guard.NotNull(response);
 
-        _logger.LogInformation("Received {Method} {SanitizedUri} - {StatusCode} in {ElapsedTime}ms", request.Method, SanitizeRequestUri(request), (int)response.StatusCode, elapsed.TotalMilliseconds.ToString("F1"));
+        _logger.LogInformation("Received HTTP response to {Method} {SanitizedUri} - {StatusCode} in {ElapsedTime}ms", request.Method, SanitizeRequestUri(request), (int)response.StatusCode, elapsed.TotalMilliseconds.ToString("F1"));
     }
 
     public void LogRequestFailed(object? context, HttpRequestMessage request, HttpResponseMessage? response, Exception exception, TimeSpan elapsed)
     {
         Guard.NotNull(request);
         
-        _logger.LogWarning(exception, "Error {Method} {SanitizedUri} failed to respond in {ElapsedTime}ms", request.Method, SanitizeRequestUri(request), elapsed.TotalMilliseconds.ToString("F1"));
+        _logger.LogWarning(exception, "HTTP request {Method} {SanitizedUri} failed to respond in {ElapsedTime}ms", request.Method, SanitizeRequestUri(request), elapsed.TotalMilliseconds.ToString("F1"));
     }
 
     private string? SanitizeRequestUri(HttpRequestMessage request)

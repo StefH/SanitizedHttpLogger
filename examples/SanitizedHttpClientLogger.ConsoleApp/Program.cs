@@ -35,7 +35,7 @@ static class Program
         var services = new ServiceCollection();
 
         services.AddSingleton(configuration);
-        
+
         services.AddLogging(builder => builder.AddSerilog(logger: Log.Logger, dispose: true));
 
         var mockServer = WireMockServer.Start();
@@ -60,7 +60,7 @@ static class Program
             o.BaseAddress = new Uri(mockServer.Urls[0]);
             // o.BaseAddress = new Uri("https://_");
         }).ConfigureSanitizedLogging(configuration);
-        
+
         services.AddSingleton<Worker>();
 
         return services.BuildServiceProvider();
