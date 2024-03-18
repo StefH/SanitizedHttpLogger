@@ -22,8 +22,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Include="..\SanitizedHttpClientLogger\Services\IRequestUriReplacer.cs" Link="Services\IRequestUriReplacer.cs" />
-	  <Compile Include="..\SanitizedHttpClientLogger\Services\RequestUriReplacer.cs" Link="Services\RequestUriReplacer.cs" />
+		<Compile Include="..\SanitizedHttpClientLogger\Services\IRequestUriReplacer.cs" Link="Services\IRequestUriReplacer.cs" />
+		<Compile Include="..\SanitizedHttpClientLogger\Services\RequestUriReplacer.cs" Link="Services\RequestUriReplacer.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
