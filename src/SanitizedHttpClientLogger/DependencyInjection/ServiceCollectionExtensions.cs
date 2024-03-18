@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using SanitizedHttpClientLogger;
+using SanitizedHttpClientLogger.Options;
 using SanitizedHttpClientLogger.Services;
-using SanitizedHttpLogger.Options;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;

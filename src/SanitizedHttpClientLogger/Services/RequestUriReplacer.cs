@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Options;
-using SanitizedHttpLogger.Options;
+using SanitizedHttpClientLogger.Options;
 
 namespace SanitizedHttpClientLogger.Services;
 

@@ -1,4 +1,4 @@
-﻿namespace SanitizedHttpLogger.Options;
+﻿namespace SanitizedHttpClientLogger.Options;
 
 [PublicAPI]
 public class SanitizedHttpLoggerOptions

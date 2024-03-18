@@ -29,7 +29,7 @@ internal class SanitizedLogger : IHttpClientLogger
         Guard.NotNull(request);
         Guard.NotNull(response);
 
-        _logger.LogInformation("Received HTTP response to {Method} {SanitizedUri} - {StatusCode} in {ElapsedTime}ms", request.Method, SanitizeRequestUri(request), (int)response.StatusCode, elapsed.TotalMilliseconds.ToString("F1"));
+        _logger.LogInformation("Received HTTP response {Method} {SanitizedUri} - {StatusCode} in {ElapsedTime}ms", request.Method, SanitizeRequestUri(request), (int)response.StatusCode, elapsed.TotalMilliseconds.ToString("F1"));
     }
 
     public void LogRequestFailed(object? context, HttpRequestMessage request, HttpResponseMessage? response, Exception exception, TimeSpan elapsed)

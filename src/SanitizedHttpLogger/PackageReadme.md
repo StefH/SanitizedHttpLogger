@@ -1,11 +1,10 @@
 ## How does it work
-
 It's not possible to configure the log pattern of the `Microsoft.Extensions.Http` based `HttpClient` loggers. It has to be replaced.
 
 This package replaces the default loggers with a logger that:
 
-1. Reduces the number of log statements on `HttpClient` requests from 4 to 1
-2. Logs only 1 aggregated log statement: `{Method} {Uri} - {StatusCode} {StatusCodeLiteral} in {Time}ms`
+1. Reduces the number of log statements on `HttpClient` requests from 4 to 2
+2. Logs only 2 log statement
 3. Makes sure that sensitive information like api-keys or tokens in the request-Uri can be sanitized using configurable Regex patterns
 
 ### Change in logging output
@@ -20,7 +19,8 @@ info: End processing HTTP request after 188.8026ms - 200
 
 After:
 ```log
-info: GET https://my.api.com/v1/status?apikey=xxx - 200 in 186.4883ms
+info: Sending HTTP request GET https://my.api.com/v1/status?apikey=xxx
+info: Received HTTP response GET https://my.api.com/v1/status?apikey=xxx - 200 in 186.4883ms
 ```
 
 ### Install
