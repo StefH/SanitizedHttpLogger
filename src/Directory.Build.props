@@ -1,8 +1,12 @@
 <Project>
 	<PropertyGroup>
-		<Version>0.0.2</Version>
+		<Version>0.0.3</Version>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<LangVersion>10</LangVersion>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="JetBrains.Annotations" Version="2023.3.0" PrivateAssets="All" />
+	</ItemGroup>
 </Project>
