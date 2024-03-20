@@ -1,6 +1,4 @@
-﻿using JetBrains.Annotations;
-
-namespace SanitizedHttpLogger.Options;
+﻿namespace SanitizedHttpClientLogger.Options;
 
 [PublicAPI]
 public class SanitizedHttpLoggerOptions

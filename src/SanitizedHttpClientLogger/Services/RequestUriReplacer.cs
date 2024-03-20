@@ -1,10 +1,9 @@
 ﻿using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Options;
-using SanitizedHttpLogger.Options;
-using Stef.Validation;
+using SanitizedHttpClientLogger.Options;
 
-namespace SanitizedHttpLogger.Services;
+namespace SanitizedHttpClientLogger.Services;
 
 internal class RequestUriReplacer : IRequestUriReplacer
 {
