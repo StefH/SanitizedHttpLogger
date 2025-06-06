@@ -4,8 +4,8 @@ Sanitize and reduce the default HttpClient log statements from 4 to 1 per reques
 ## NuGet
 | Name | NuGet | Frameworks |
 | - | - | - |
-| SanitizedHttpClientLogger | [![NuGet Badge](https://buildstats.info/nuget/SanitizedHttpClientLogger)](https://www.nuget.org/packages/SanitizedHttpClientLogger) | <ul><li>`.NET 8` and up</li></ul>
-| SanitizedHttpLogger | [![NuGet Badge](https://buildstats.info/nuget/SanitizedHttpLogger)](https://www.nuget.org/packages/SanitizedHttpLogger) | <ul><li>`.NET Framework 4.8`</li><li>`.NET Standard 2.0`</li><li>`.NET Standard 2.1`</li><li>`.NET 6.0` and up</li></ul>
+| SanitizedHttpClientLogger | [![NuGet Badge](https://img.shields.io/nuget/v/SanitizedHttpClientLogger)](https://www.nuget.org/packages/SanitizedHttpClientLogger) | <ul><li>`.NET 8` and up</li></ul>
+| SanitizedHttpLogger | [![NuGet Badge](https://img.shields.io/nuget/v/SanitizedHttpLogger)](https://www.nuget.org/packages/SanitizedHttpLogger) | <ul><li>`.NET Framework 4.8`</li><li>`.NET Standard 2.0`</li><li>`.NET Standard 2.1`</li><li>`.NET 6.0` and up</li></ul>
 
 
 ## How does it work
