@@ -1,4 +1,4 @@
-# SanitizedHttpLogger & SanitizedHttpClientLogger
+# ![icon](./resources/icon-transparent_32x32.png) SanitizedHttpLogger & SanitizedHttpClientLogger
 Sanitize and reduce the default HttpClient log statements from 4 to 1 per request. This project is based on [MinimalHttpLogger](https://github.com/johnkors/MinimalHttpLogger).
 
 ## NuGet
@@ -124,3 +124,12 @@ services.Configure<SanitizedHttpLoggerOptions>(Configuration);
 ## :clap: Attribution
 - <a href="https://www.flaticon.com/free-icons/http" title="http icons">Http icons created by Graphix's Art - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/logs" title="logs icons">Logs icons created by Graphix's Art - Flaticon</a>
+
+
+## Sponsors
+
+[Entity Framework Extensions](https://entityframework-extensions.net/?utm_source=StefH) and [Dapper Plus](https://dapper-plus.net/?utm_source=StefH) are major sponsors and proud to contribute to the development of **SanitizedHttpLogger** and **SanitizedHttpClientLogger**.
+
+[![Entity Framework Extensions](https://raw.githubusercontent.com/StefH/resources/main/sponsor/entity-framework-extensions-sponsor.png)](https://entityframework-extensions.net/bulk-insert?utm_source=StefH)
+
+[![Dapper Plus](https://raw.githubusercontent.com/StefH/resources/main/sponsor/dapper-plus-sponsor.png)](https://dapper-plus.net/bulk-insert?utm_source=StefH)
