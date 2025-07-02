@@ -39,8 +39,9 @@ internal class SanitizedLogger : IHttpClientLogger
         _logger.LogWarning(exception, "HTTP request {Method} {SanitizedUri} failed to respond in {ElapsedTime}ms", request.Method, SanitizeRequestUri(request), elapsed.TotalMilliseconds.ToString("F1"));
     }
 
-    private string? SanitizeRequestUri(HttpRequestMessage request)
+    private Uri? SanitizeRequestUri(HttpRequestMessage request)
     {
-        return _requestUriReplacer.Replace(request.RequestUri?.ToString());
+        var replaced = _requestUriReplacer.Replace(request.RequestUri?.ToString());
+        return replaced == null ? null : new Uri(replaced);
     }
 }
