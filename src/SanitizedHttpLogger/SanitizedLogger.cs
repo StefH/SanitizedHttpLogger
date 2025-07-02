@@ -59,8 +59,7 @@ internal class SanitizedLogger : DelegatingHandler
 
     private Uri? SanitizeRequestUri(HttpRequestMessage request)
     {
-        var replaced = _requestUriReplacer.Replace(request.RequestUri?.ToString());
-        return replaced == null ? null : new Uri(replaced);
+        return _requestUriReplacer.Replace(request.RequestUri);
     }
 
     private void LogRequestAsInfo(HttpRequestMessage request, Uri? sanitizedRequestUri)
