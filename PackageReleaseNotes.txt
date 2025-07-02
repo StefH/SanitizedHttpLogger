@@ -1,4 +1,4 @@
-# 0.0.2 (20 March 2024)
-- #2 Add SanitizedHttpClientLogger [enhancement]
+# 0.0.4 (02 July 2025)
+- #3 Log SanitizedUri as Uri instead of string [enhancement]
 
 The full release notes can be found here: https://github.com/StefH/SanitizedHttpLogger/blob/main/ReleaseNotes.md
