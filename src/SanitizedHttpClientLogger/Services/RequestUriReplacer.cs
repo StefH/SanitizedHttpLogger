@@ -18,8 +18,23 @@ internal class RequestUriReplacer : IRequestUriReplacer
         }
     }
 
-    public string? Replace(string? uri)
+    public object? Replace(Uri? uri)
     {
-        return uri == null ? null : _requestUriReplacements.Aggregate(uri, (current, item) => item.Key.Value.Replace(current, item.Value));
+        if (uri == null)
+        {
+            return null;
+        }
+
+        var replaced = _requestUriReplacements.Aggregate(uri.ToString(), (current, item) => item.Key.Value.Replace(current, item.Value));
+
+        try
+        {
+            return new Uri(replaced);
+        }
+        catch
+        {
+            // In case the Uri is invalid, return the replaced value as string.
+            return replaced;
+        }
     }
 }

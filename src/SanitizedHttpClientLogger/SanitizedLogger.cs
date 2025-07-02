@@ -35,12 +35,12 @@ internal class SanitizedLogger : IHttpClientLogger
     public void LogRequestFailed(object? context, HttpRequestMessage request, HttpResponseMessage? response, Exception exception, TimeSpan elapsed)
     {
         Guard.NotNull(request);
-        
+
         _logger.LogWarning(exception, "HTTP request {Method} {SanitizedUri} failed to respond in {ElapsedTime}ms", request.Method, SanitizeRequestUri(request), elapsed.TotalMilliseconds.ToString("F1"));
     }
 
-    private string? SanitizeRequestUri(HttpRequestMessage request)
+    private object? SanitizeRequestUri(HttpRequestMessage request)
     {
-        return _requestUriReplacer.Replace(request.RequestUri?.ToString());
+        return _requestUriReplacer.Replace(request.RequestUri);
     }
 }
