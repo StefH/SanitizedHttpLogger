@@ -57,23 +57,23 @@ internal class SanitizedLogger : DelegatingHandler
         }
     }
 
-    private Uri? SanitizeRequestUri(HttpRequestMessage request)
+    private object? SanitizeRequestUri(HttpRequestMessage request)
     {
         return _requestUriReplacer.Replace(request.RequestUri);
     }
 
-    private void LogRequestAsInfo(HttpRequestMessage request, Uri? sanitizedRequestUri)
+    private void LogRequestAsInfo(HttpRequestMessage request, object? sanitizedRequestUri)
     {
         _logger.LogInformation("Sending HTTP request {Method} {SanitizedUri}", request.Method, sanitizedRequestUri);
     }
 
-    private HttpResponseMessage LogResponseAsInfo(HttpRequestMessage request, Uri? sanitizedRequestUri, HttpResponseMessage response, ValueStopwatch stopwatch)
+    private HttpResponseMessage LogResponseAsInfo(HttpRequestMessage request, object? sanitizedRequestUri, HttpResponseMessage response, ValueStopwatch stopwatch)
     {
         _logger.LogInformation("Received HTTP response {Method} {SanitizedUri} - {StatusCode} in {ElapsedTime}ms", request.Method, sanitizedRequestUri, (int)response.StatusCode, stopwatch.GetElapsedTime().TotalMilliseconds.ToString("F1"));
         return response;
     }
 
-    private void LogResponseAsWarning(Exception exception, HttpRequestMessage request, Uri? sanitizedRequestUri, ValueStopwatch stopwatch)
+    private void LogResponseAsWarning(Exception exception, HttpRequestMessage request, object? sanitizedRequestUri, ValueStopwatch stopwatch)
     {
         _logger.LogWarning(exception, "HTTP request {Method} {SanitizedUri} failed to respond in {ElapsedTime}ms", request.Method, sanitizedRequestUri, stopwatch.GetElapsedTime().TotalMilliseconds.ToString("F1"));
     }

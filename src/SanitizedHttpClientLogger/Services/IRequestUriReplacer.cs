@@ -2,5 +2,5 @@
 
 internal interface IRequestUriReplacer
 {
-    Uri? Replace(Uri? uri);
+    object? Replace(Uri? uri);
 }

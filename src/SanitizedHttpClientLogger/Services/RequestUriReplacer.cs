@@ -18,7 +18,7 @@ internal class RequestUriReplacer : IRequestUriReplacer
         }
     }
 
-    public Uri? Replace(Uri? uri)
+    public object? Replace(Uri? uri)
     {
         if (uri == null)
         {
@@ -26,6 +26,15 @@ internal class RequestUriReplacer : IRequestUriReplacer
         }
 
         var replaced = _requestUriReplacements.Aggregate(uri.ToString(), (current, item) => item.Key.Value.Replace(current, item.Value));
-        return new Uri(replaced);
+
+        try
+        {
+            return new Uri(replaced);
+        }
+        catch
+        {
+            // In case the Uri is invalid, return the replaced value as string.
+            return replaced;
+        }
     }
 }
