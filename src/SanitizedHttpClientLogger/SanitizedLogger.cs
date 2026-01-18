@@ -10,7 +10,7 @@ internal class SanitizedLogger(ILogger<SanitizedLogger> logger, IUriReplacer uri
     {
         Guard.NotNull(request);
 
-        logger.LogInformation("Sending HTTP request {Method} {SanitizedUri}", request.Method, SanitizeRequestUri(request));
+        logger.LogInformation("Sending HTTP request {Method} {SanitizedUri}", request.Method, SanitizeUri(request));
 
         if (logger.IsEnabled(LogLevel.Trace))
         {
@@ -26,8 +26,8 @@ internal class SanitizedLogger(ILogger<SanitizedLogger> logger, IUriReplacer uri
         Guard.NotNull(request);
         Guard.NotNull(response);
 
-        logger.LogInformation("Received HTTP response {Method} {SanitizedUri} - {StatusCode} in {ElapsedTime}ms", request.Method, SanitizeRequestUri(request), (int)response.StatusCode, elapsed.TotalMilliseconds.ToString("F1"));
-        
+        logger.LogInformation("Received HTTP response {Method} {SanitizedUri} - {StatusCode} in {ElapsedTime}ms", request.Method, SanitizeUri(request), (int)response.StatusCode, elapsed.TotalMilliseconds.ToString("F1"));
+
         if (logger.IsEnabled(LogLevel.Trace))
         {
             var headers = headersReplacer.Replace(request.Headers);
@@ -39,7 +39,7 @@ internal class SanitizedLogger(ILogger<SanitizedLogger> logger, IUriReplacer uri
     {
         Guard.NotNull(request);
 
-        logger.LogWarning(exception, "HTTP request {Method} {SanitizedUri} failed to respond in {ElapsedTime}ms", request.Method, SanitizeRequestUri(request), elapsed.TotalMilliseconds.ToString("F1"));
+        logger.LogWarning(exception, "HTTP request {Method} {SanitizedUri} failed to respond in {ElapsedTime}ms", request.Method, SanitizeUri(request), elapsed.TotalMilliseconds.ToString("F1"));
 
         if (logger.IsEnabled(LogLevel.Trace))
         {
@@ -48,7 +48,7 @@ internal class SanitizedLogger(ILogger<SanitizedLogger> logger, IUriReplacer uri
         }
     }
 
-    private object? SanitizeRequestUri(HttpRequestMessage request)
+    private object? SanitizeUri(HttpRequestMessage request)
     {
         return uriReplacer.Replace(request.RequestUri);
     }
