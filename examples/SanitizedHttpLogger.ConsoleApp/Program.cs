@@ -19,7 +19,7 @@ static class Program
     static async Task Main(string[] args)
     {
         Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Debug()
+            .MinimumLevel.Verbose()
             .WriteTo.Console(theme: AnsiConsoleTheme.Code)
             .CreateLogger();
 

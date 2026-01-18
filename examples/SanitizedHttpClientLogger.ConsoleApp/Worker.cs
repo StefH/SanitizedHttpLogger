@@ -1,28 +1,23 @@
 ﻿using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 namespace SanitizedHttpClientLogger.ConsoleApp;
 
-internal class Worker
+internal class Worker(ILogger<Worker> logger, IHttpClientFactory factory)
 {
-    private readonly ILogger<Worker> _logger;
-    private readonly IHttpClientFactory _factory;
-
-    public Worker(ILogger<Worker> logger, IHttpClientFactory factory)
-    {
-        _logger = logger;
-        _factory = factory;
-    }
-
     public async Task RunAsync(CancellationToken cancellationToken = default)
     {
-        var httpClient = _factory.CreateClient(nameof(Worker));
-        
+        var httpClient = factory.CreateClient(nameof(Worker));
+        httpClient.DefaultRequestHeaders.Add("X-Api-Key", "my-secret-key");
+        httpClient.DefaultRequestHeaders.Add("X-Api-Key2", ["my-secret-key", "abc"]);
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "secret-token");
+
         var result = await httpClient.GetStringAsync("/abc?apikey=my-secret-key", cancellationToken);
-        _logger.LogInformation("Result: {Result}", result);
+        logger.LogInformation("Result: {Result}", result);
 
         try
         {
@@ -30,7 +25,7 @@ internal class Worker
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Oops");
+            logger.LogError(e, "Oops");
         }
     }
 }

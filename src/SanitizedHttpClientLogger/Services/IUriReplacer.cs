@@ -1,6 +1,6 @@
 ﻿namespace SanitizedHttpClientLogger.Services;
 
-internal interface IRequestUriReplacer
+internal interface IUriReplacer
 {
     /// <summary>
     /// Replaces or sanitizes the given <see cref="Uri"/> and returns the result.

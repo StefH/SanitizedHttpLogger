@@ -22,8 +22,10 @@
 
 	<ItemGroup>
 		<Compile Include="..\SanitizedHttpClientLogger\Options\SanitizedHttpLoggerOptions.cs" Link="Options\SanitizedHttpLoggerOptions.cs" />
-		<Compile Include="..\SanitizedHttpClientLogger\Services\IRequestUriReplacer.cs" Link="Services\IRequestUriReplacer.cs" />
-		<Compile Include="..\SanitizedHttpClientLogger\Services\RequestUriReplacer.cs" Link="Services\RequestUriReplacer.cs" />
+		<Compile Include="..\SanitizedHttpClientLogger\Services\IUriReplacer.cs" Link="Services\IUriReplacer.cs" />
+		<Compile Include="..\SanitizedHttpClientLogger\Services\UriReplacer.cs" Link="Services\UriReplacer.cs" />
+    <Compile Include="..\SanitizedHttpClientLogger\Services\IHttpHeadersReplacer.cs" Link="Services\IHttpHeadersReplacer.cs" />
+    <Compile Include="..\SanitizedHttpClientLogger\Services\HttpHeadersReplacer.cs" Link="Services\HttpHeadersReplacer.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

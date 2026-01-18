@@ -4,30 +4,21 @@ using SanitizedHttpClientLogger.Services;
 
 namespace SanitizedHttpLogger;
 
-internal class SanitizedLogger : DelegatingHandler
+internal class SanitizedLogger(ILogger logger, IUriReplacer uriReplacer, IHttpHeadersReplacer headersReplacer) : DelegatingHandler
 {
-    private readonly ILogger _logger;
-    private readonly IRequestUriReplacer _requestUriReplacer;
-
-    public SanitizedLogger(ILogger logger, IRequestUriReplacer requestUriReplacer)
-    {
-        _logger = Guard.NotNull(logger);
-        _requestUriReplacer = Guard.NotNull(requestUriReplacer);
-    }
-
 #if !(NETSTANDARD2_0 || NETSTANDARD2_1 || NET48)
     protected override HttpResponseMessage Send(HttpRequestMessage request, CancellationToken cancellationToken)
     {
         Guard.NotNull(request);
 
-        var sanitizedRequestUri = SanitizeRequestUri(request);
+        var sanitizedRequestUri = SanitizeUri(request);
         var stopwatch = ValueStopwatch.StartNew();
 
         try
         {
-            LogRequestAsInfo(request, sanitizedRequestUri);
+            LogRequest(request, sanitizedRequestUri);
             var response = base.Send(request, cancellationToken);
-            return LogResponseAsInfo(request, sanitizedRequestUri, response, stopwatch);
+            return LogResponse(request, sanitizedRequestUri, response, stopwatch);
         }
         catch (Exception exception)
         {
@@ -41,14 +32,14 @@ internal class SanitizedLogger : DelegatingHandler
     {
         Guard.NotNull(request);
 
-        var sanitizedRequestUri = SanitizeRequestUri(request);
+        var sanitizedRequestUri = SanitizeUri(request);
         var stopwatch = ValueStopwatch.StartNew();
 
         try
         {
-            LogRequestAsInfo(request, sanitizedRequestUri);
+            LogRequest(request, sanitizedRequestUri);
             var response = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
-            return LogResponseAsInfo(request, sanitizedRequestUri, response, stopwatch);
+            return LogResponse(request, sanitizedRequestUri, response, stopwatch);
         }
         catch (Exception exception)
         {
@@ -57,25 +48,44 @@ internal class SanitizedLogger : DelegatingHandler
         }
     }
 
-    private object? SanitizeRequestUri(HttpRequestMessage request)
+    private object? SanitizeUri(HttpRequestMessage request)
     {
-        return _requestUriReplacer.Replace(request.RequestUri);
+        return uriReplacer.Replace(request.RequestUri);
     }
 
-    private void LogRequestAsInfo(HttpRequestMessage request, object? sanitizedRequestUri)
+    private void LogRequest(HttpRequestMessage request, object? sanitizedRequestUri)
     {
-        _logger.LogInformation("Sending HTTP request {Method} {SanitizedUri}", request.Method, sanitizedRequestUri);
+        logger.LogInformation("Sending HTTP request {Method} {SanitizedUri}", request.Method, sanitizedRequestUri);
+
+        if (logger.IsEnabled(LogLevel.Trace))
+        {
+            var headers = headersReplacer.Replace(request.Headers);
+            logger.LogTrace("Request Headers:{Headers}", Environment.NewLine + string.Join(Environment.NewLine, headers.Select(h => $"{h.Key}: {string.Join(", ", h.Value)}")));
+        }
     }
 
-    private HttpResponseMessage LogResponseAsInfo(HttpRequestMessage request, object? sanitizedRequestUri, HttpResponseMessage response, ValueStopwatch stopwatch)
+    private HttpResponseMessage LogResponse(HttpRequestMessage request, object? sanitizedRequestUri, HttpResponseMessage response, ValueStopwatch stopwatch)
     {
-        _logger.LogInformation("Received HTTP response {Method} {SanitizedUri} - {StatusCode} in {ElapsedTime}ms", request.Method, sanitizedRequestUri, (int)response.StatusCode, stopwatch.GetElapsedTime().TotalMilliseconds.ToString("F1"));
+        logger.LogInformation("Received HTTP response {Method} {SanitizedUri} - {StatusCode} in {ElapsedTime}ms", request.Method, sanitizedRequestUri, (int)response.StatusCode, stopwatch.GetElapsedTime().TotalMilliseconds.ToString("F1"));
+
+        if (logger.IsEnabled(LogLevel.Trace))
+        {
+            var headers = headersReplacer.Replace(request.Headers);
+            logger.LogTrace("Response Headers:{Headers}", Environment.NewLine + string.Join(Environment.NewLine, headers.Select(h => $"{h.Key}: {string.Join(", ", h.Value)}")));
+        }
+
         return response;
     }
 
     private void LogResponseAsWarning(Exception exception, HttpRequestMessage request, object? sanitizedRequestUri, ValueStopwatch stopwatch)
     {
-        _logger.LogWarning(exception, "HTTP request {Method} {SanitizedUri} failed to respond in {ElapsedTime}ms", request.Method, sanitizedRequestUri, stopwatch.GetElapsedTime().TotalMilliseconds.ToString("F1"));
+        logger.LogWarning(exception, "HTTP request {Method} {SanitizedUri} failed to respond in {ElapsedTime}ms", request.Method, sanitizedRequestUri, stopwatch.GetElapsedTime().TotalMilliseconds.ToString("F1"));
+
+        if (logger.IsEnabled(LogLevel.Trace))
+        {
+            var headers = headersReplacer.Replace(request.Headers);
+            logger.LogTrace("Response Headers:{Headers}", Environment.NewLine + string.Join(Environment.NewLine, headers.Select(h => $"{h.Key}: {string.Join(", ", h.Value)}")));
+        }
     }
 
     #region ValueStopwatch

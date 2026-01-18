@@ -5,16 +5,16 @@ using SanitizedHttpClientLogger.Options;
 
 namespace SanitizedHttpClientLogger.Services;
 
-internal class RequestUriReplacer : IRequestUriReplacer
+internal class UriReplacer : IUriReplacer
 {
-    private readonly ConcurrentDictionary<Lazy<Regex>, string> _requestUriReplacements = new();
+    private readonly ConcurrentDictionary<Lazy<Regex>, string> _uriReplacements = new();
 
-    public RequestUriReplacer(IOptions<SanitizedHttpLoggerOptions> options)
+    public UriReplacer(IOptions<SanitizedHttpLoggerOptions> options)
     {
-        var requestUriReplacements = Guard.NotNull(options.Value).RequestUriReplacements;
+        var requestUriReplacements = Guard.NotNull(options.Value).UriReplacements;
         foreach (var replacement in requestUriReplacements)
         {
-            _requestUriReplacements.TryAdd(new Lazy<Regex>(() => new Regex(replacement.Key, RegexOptions.Compiled, TimeSpan.FromMilliseconds(100))), replacement.Value);
+            _uriReplacements.TryAdd(new Lazy<Regex>(() => new Regex(replacement.Key, RegexOptions.Compiled, TimeSpan.FromMilliseconds(100))), replacement.Value);
         }
     }
 
@@ -25,7 +25,7 @@ internal class RequestUriReplacer : IRequestUriReplacer
             return null;
         }
 
-        var replaced = _requestUriReplacements.Aggregate(uri.ToString(), (current, item) => item.Key.Value.Replace(current, item.Value));
+        var replaced = _uriReplacements.Aggregate(uri.ToString(), (current, item) => item.Key.Value.Replace(current, item.Value));
 
         try
         {

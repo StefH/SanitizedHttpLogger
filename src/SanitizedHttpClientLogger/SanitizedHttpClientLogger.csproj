@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
 		<ApplicationIcon>../../resources/icon.ico</ApplicationIcon>
 		<Copyright>Copyright © Stef Heyenrath</Copyright>
 		<Authors>Stef Heyenrath</Authors>

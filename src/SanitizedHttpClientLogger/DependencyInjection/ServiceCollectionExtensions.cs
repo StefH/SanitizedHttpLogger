@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Http;
 using SanitizedHttpClientLogger;
 using SanitizedHttpClientLogger.Options;
 using SanitizedHttpClientLogger.Services;
@@ -47,7 +48,8 @@ public static class HttpClientBuilderExtensions
         builder.Services
             .AddOptionsWithDataAnnotationValidation(options)
             .AddScoped<SanitizedLogger>()
-            .AddSingleton<IRequestUriReplacer, RequestUriReplacer>();
+            .AddSingleton<IUriReplacer, UriReplacer>()
+            .AddSingleton<IHttpHeadersReplacer, HttpHeadersReplacer>();
 
         return builder
             .RemoveAllLoggers()

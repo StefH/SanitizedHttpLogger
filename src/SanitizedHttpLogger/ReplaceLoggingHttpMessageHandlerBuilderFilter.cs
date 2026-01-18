@@ -5,17 +5,8 @@ using SanitizedHttpClientLogger.Services;
 
 namespace SanitizedHttpLogger;
 
-internal class ReplaceLoggingHttpMessageHandlerBuilderFilter : IHttpMessageHandlerBuilderFilter
+internal class ReplaceLoggingHttpMessageHandlerBuilderFilter(ILoggerFactory loggerFactory, IUriReplacer uriReplacer, IHttpHeadersReplacer headersReplacer) : IHttpMessageHandlerBuilderFilter
 {
-    private readonly ILoggerFactory _loggerFactory;
-    private readonly IRequestUriReplacer _requestUriReplacer;
-
-    public ReplaceLoggingHttpMessageHandlerBuilderFilter(ILoggerFactory loggerFactory, IRequestUriReplacer requestUriReplacer)
-    {
-        _loggerFactory = Guard.NotNull(loggerFactory);
-        _requestUriReplacer = Guard.NotNull(requestUriReplacer);
-    }
-
     public Action<HttpMessageHandlerBuilder> Configure(Action<HttpMessageHandlerBuilder> next)
     {
         return builder =>
@@ -23,7 +14,7 @@ internal class ReplaceLoggingHttpMessageHandlerBuilderFilter : IHttpMessageHandl
             next(builder);
 
             var loggerName = !string.IsNullOrEmpty(builder.Name) ? builder.Name : "Default";
-            var innerLogger = _loggerFactory.CreateLogger($"System.Net.Http.HttpClient.{loggerName}.ClientHandler");
+            var innerLogger = loggerFactory.CreateLogger($"System.Net.Http.HttpClient.{loggerName}.ClientHandler");
             var handlersToRemove = builder.AdditionalHandlers
                 .Where(delegatingHandler => delegatingHandler is LoggingHttpMessageHandler or LoggingScopeHttpMessageHandler)
                 .ToArray();
@@ -32,7 +23,7 @@ internal class ReplaceLoggingHttpMessageHandlerBuilderFilter : IHttpMessageHandl
                 builder.AdditionalHandlers.Remove(delegatingHandler);
             }
 
-            builder.AdditionalHandlers.Add(new SanitizedLogger(innerLogger, _requestUriReplacer));
+            builder.AdditionalHandlers.Add(new SanitizedLogger(innerLogger, uriReplacer, headersReplacer));
         };
     }
 }
