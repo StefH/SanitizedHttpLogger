@@ -15,7 +15,7 @@ This package replaces the default loggers with a logger that:
 
 1. Reduces the number of log statements on `HttpClient` requests from 4 to 2
 2. Makes sure that sensitive information like api-keys or tokens in the request-Uri can be sanitized using configurable Regex patterns
-3. Also replaces sensitive information like api-keys or tokens in the request- and response-headers using configurable Regex patterns
+3. Also removes and replaces sensitive information like api-keys or tokens in the request- and response-headers using configurable Regex patterns
    (Only when the log level is set to `Trace`)
 
 ### Change in logging output
