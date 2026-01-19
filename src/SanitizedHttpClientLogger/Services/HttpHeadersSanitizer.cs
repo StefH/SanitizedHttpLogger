@@ -29,7 +29,7 @@ internal class HttpHeadersSanitizer : IHttpHeadersSanitizer
             .Where(h => !_headersDeletions.Any(d => d.Value.IsMatch(h.Key)))
             .ToDictionary(h => h.Key, h => h.Value);
                 
-        foreach (var header in headers.ToArray())
+        foreach (var header in headersCopy)
         {
             var match = _headerValuesReplacements.FirstOrDefault(h => h.Key.Value.IsMatch(header.Key));
 
