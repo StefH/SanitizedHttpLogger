@@ -6,9 +6,9 @@ namespace SanitizedHttpClientLogger.Services;
 internal interface IHttpHeadersReplacer
 {
     /// <summary>
-    /// Replaces or sanitizes the given <see cref="HttpHeaders"/> and returns the result.
+    /// Replaces or sanitizes the given <see cref="HttpHeaders"/> and returns the sanitized header values.
     /// </summary>
-    /// <param name="uri">The original <see cref="HttpHeaders"/> to be replaced or sanitized.</param>
-    /// <returns>The sanitized <see cref="HttpHeaders"/>.</returns>
+    /// <param name="headers">The original <see cref="HttpHeaders"/> to be replaced or sanitized.</param>
+    /// <returns>A dictionary containing the sanitized header values.</returns>
     IDictionary<string, IEnumerable<string>> Replace<T>(T headers) where T: HttpHeaders;
 }
