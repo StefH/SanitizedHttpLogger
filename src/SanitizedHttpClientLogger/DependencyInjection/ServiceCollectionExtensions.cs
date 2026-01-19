@@ -49,7 +49,7 @@ public static class HttpClientBuilderExtensions
             .AddOptionsWithDataAnnotationValidation(options)
             .AddScoped<SanitizedLogger>()
             .AddSingleton<IUriReplacer, UriReplacer>()
-            .AddSingleton<IHttpHeadersReplacer, HttpHeadersReplacer>();
+            .AddSingleton<IHttpHeadersSanitizer, HttpHeadersSanitizer>();
 
         return builder
             .RemoveAllLoggers()

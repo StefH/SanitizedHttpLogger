@@ -49,7 +49,7 @@ public static class ServiceCollectionExtensions
         return services
             .AddOptionsWithDataAnnotationValidation(options)
             .AddSingleton<IUriReplacer, UriReplacer>()
-            .AddSingleton<IHttpHeadersReplacer, HttpHeadersReplacer>()
+            .AddSingleton<IHttpHeadersSanitizer, HttpHeadersSanitizer>()
             .Replace(ServiceDescriptor.Singleton<IHttpMessageHandlerBuilderFilter, ReplaceLoggingHttpMessageHandlerBuilderFilter>());
     }
 }

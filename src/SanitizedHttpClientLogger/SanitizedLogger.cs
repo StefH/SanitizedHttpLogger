@@ -4,7 +4,7 @@ using SanitizedHttpClientLogger.Services;
 
 namespace SanitizedHttpClientLogger;
 
-internal class SanitizedLogger(ILogger<SanitizedLogger> logger, IUriReplacer uriReplacer, IHttpHeadersReplacer headersReplacer) : IHttpClientLogger
+internal class SanitizedLogger(ILogger<SanitizedLogger> logger, IUriReplacer uriReplacer, IHttpHeadersSanitizer headersReplacer) : IHttpClientLogger
 {
     public object? LogRequestStart(HttpRequestMessage request)
     {
@@ -14,7 +14,7 @@ internal class SanitizedLogger(ILogger<SanitizedLogger> logger, IUriReplacer uri
 
         if (logger.IsEnabled(LogLevel.Trace))
         {
-            var headers = headersReplacer.Replace(request.Headers);
+            var headers = headersReplacer.Sanitize(request.Headers);
             logger.LogTrace("Request Headers:{Headers}", Environment.NewLine + string.Join(Environment.NewLine, headers.Select(h => $"{h.Key}: {string.Join(", ", h.Value)}")));
         }
 
@@ -30,7 +30,7 @@ internal class SanitizedLogger(ILogger<SanitizedLogger> logger, IUriReplacer uri
 
         if (logger.IsEnabled(LogLevel.Trace))
         {
-            var headers = headersReplacer.Replace(response.Headers);
+            var headers = headersReplacer.Sanitize(response.Headers);
             logger.LogTrace("Response Headers:{Headers}", Environment.NewLine + string.Join(Environment.NewLine, headers.Select(h => $"{h.Key}: {string.Join(", ", h.Value)}")));
         }
     }
@@ -43,7 +43,7 @@ internal class SanitizedLogger(ILogger<SanitizedLogger> logger, IUriReplacer uri
 
         if (logger.IsEnabled(LogLevel.Trace) && response != null)
         {
-            var headers = headersReplacer.Replace(response.Headers);
+            var headers = headersReplacer.Sanitize(response.Headers);
             logger.LogTrace("Response Headers:{Headers}", Environment.NewLine + string.Join(Environment.NewLine, headers.Select(h => $"{h.Key}: {string.Join(", ", h.Value)}")));
         }
     }

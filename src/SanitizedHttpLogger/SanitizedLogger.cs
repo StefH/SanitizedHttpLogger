@@ -4,7 +4,7 @@ using SanitizedHttpClientLogger.Services;
 
 namespace SanitizedHttpLogger;
 
-internal class SanitizedLogger(ILogger logger, IUriReplacer uriReplacer, IHttpHeadersReplacer headersReplacer) : DelegatingHandler
+internal class SanitizedLogger(ILogger logger, IUriReplacer uriReplacer, IHttpHeadersSanitizer headersSanitizer) : DelegatingHandler
 {
 #if !(NETSTANDARD2_0 || NETSTANDARD2_1 || NET48)
     protected override HttpResponseMessage Send(HttpRequestMessage request, CancellationToken cancellationToken)
@@ -61,7 +61,7 @@ internal class SanitizedLogger(ILogger logger, IUriReplacer uriReplacer, IHttpHe
 
         if (logger.IsEnabled(LogLevel.Trace))
         {
-            var headers = headersReplacer.Replace(request.Headers);
+            var headers = headersSanitizer.Sanitize(request.Headers);
             logger.LogTrace("Request Headers:{Headers}", Environment.NewLine + string.Join(Environment.NewLine, headers.Select(h => $"{h.Key}: {string.Join(", ", h.Value)}")));
         }
     }
@@ -72,7 +72,7 @@ internal class SanitizedLogger(ILogger logger, IUriReplacer uriReplacer, IHttpHe
 
         if (logger.IsEnabled(LogLevel.Trace))
         {
-            var headers = headersReplacer.Replace(response.Headers);
+            var headers = headersSanitizer.Sanitize(response.Headers);
             logger.LogTrace("Response Headers:{Headers}", Environment.NewLine + string.Join(Environment.NewLine, headers.Select(h => $"{h.Key}: {string.Join(", ", h.Value)}")));
         }
 
@@ -85,7 +85,7 @@ internal class SanitizedLogger(ILogger logger, IUriReplacer uriReplacer, IHttpHe
 
         if (logger.IsEnabled(LogLevel.Trace) && response != null)
         {
-            var headers = headersReplacer.Replace(response.Headers);
+            var headers = headersSanitizer.Sanitize(response.Headers);
             logger.LogTrace("Response Headers:{Headers}", Environment.NewLine + string.Join(Environment.NewLine, headers.Select(h => $"{h.Key}: {string.Join(", ", h.Value)}")));
         }
     }

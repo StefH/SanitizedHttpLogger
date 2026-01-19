@@ -5,7 +5,7 @@ using SanitizedHttpClientLogger.Services;
 
 namespace SanitizedHttpLogger;
 
-internal class ReplaceLoggingHttpMessageHandlerBuilderFilter(ILoggerFactory loggerFactory, IUriReplacer uriReplacer, IHttpHeadersReplacer headersReplacer) : IHttpMessageHandlerBuilderFilter
+internal class ReplaceLoggingHttpMessageHandlerBuilderFilter(ILoggerFactory loggerFactory, IUriReplacer uriReplacer, IHttpHeadersSanitizer headersReplacer) : IHttpMessageHandlerBuilderFilter
 {
     public Action<HttpMessageHandlerBuilder> Configure(Action<HttpMessageHandlerBuilder> next)
     {
