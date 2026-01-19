@@ -23,6 +23,4 @@
 		</None>
 	</ItemGroup>
 
-	<ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://www.schemastore.org/azure-iot-edgehub-deployment-1.2.json" /></VisualStudio></ProjectExtensions>
-
 </Project>
