@@ -12,8 +12,8 @@ internal class HttpHeadersReplacer : IHttpHeadersReplacer
 
     public HttpHeadersReplacer(IOptions<SanitizedHttpLoggerOptions> options)
     {
-        var requestUriReplacements = Guard.NotNull(options.Value).HeadersReplacements;
-        foreach (var replacement in requestUriReplacements)
+        var headersReplacements = Guard.NotNull(options.Value).HeadersReplacements;
+        foreach (var replacement in headersReplacements)
         {
             _headerValuesReplacements.TryAdd(new Lazy<Regex>(() => new Regex(replacement.Key, RegexOptions.Compiled, TimeSpan.FromMilliseconds(100))), replacement.Value);
         }

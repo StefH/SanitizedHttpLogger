@@ -11,8 +11,8 @@ internal class UriReplacer : IUriReplacer
 
     public UriReplacer(IOptions<SanitizedHttpLoggerOptions> options)
     {
-        var requestUriReplacements = Guard.NotNull(options.Value).UriReplacements;
-        foreach (var replacement in requestUriReplacements)
+        var uriReplacements = Guard.NotNull(options.Value).UriReplacements;
+        foreach (var replacement in uriReplacements)
         {
             _uriReplacements.TryAdd(new Lazy<Regex>(() => new Regex(replacement.Key, RegexOptions.Compiled, TimeSpan.FromMilliseconds(100))), replacement.Value);
         }

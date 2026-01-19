@@ -42,7 +42,7 @@ services
     .ConfigureSanitizedLogging(o =>
         // This regex pattern will match any part of a string that starts with "apikey=" (in a case-insensitive manner)
         // followed by any number of characters that are not an ampersand.    
-        o.RequestUriReplacements.Add("(?i)apikey=[^&]*", "apikey=xxx")
+        o.UriReplacements.Add("(?i)apikey=[^&]*", "apikey=xxx")
     );
 ```
 
@@ -50,8 +50,13 @@ services
 ```json
 {
   "SanitizedHttpLoggerOptions": {
-    "RequestUriReplacements": {
+    "UriReplacements": {
       "(?i)apikey=[^&]*": "apikey=xxx"
+    },
+    "HeadersReplacements": {
+      "(?i)^X-Api-Key$": "xxx",
+      "(?i)^X-Api-Key2$": "yyy",
+      "(?i)^Authorization$": "zzz"
     }
   }
 }
