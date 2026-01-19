@@ -19,7 +19,7 @@ static class Program
     static async Task Main(string[] args)
     {
         Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Debug()
+            .MinimumLevel.Verbose() // Required to also show Headers logging
             .WriteTo.Console(theme: AnsiConsoleTheme.Code)
             .CreateLogger();
 
@@ -46,6 +46,9 @@ static class Program
             )
             .RespondWith(Response.Create()
                 .WithBody("Test")
+                .WithHeader("Response-X-Api-Key", "server-secret")
+                .WithHeader("Response-X-Api-Key2", "server-secret2")
+                .WithHeader("Response-Authorization", "Bearer 1234")
                 .WithStatusCode(HttpStatusCode.OK)
             );
         mockServer
@@ -54,6 +57,9 @@ static class Program
             )
             .RespondWith(Response.Create()
                 .WithStatusCode(HttpStatusCode.InternalServerError)
+                .WithHeader("Response-X-Api-Key", "server-secret")
+                .WithHeader("Response-X-Api-Key2", "server-secret2")
+                .WithHeader("Response-Authorization", "Bearer 1234")
             );
 
         services.AddHttpClient<Worker>((_, o) =>

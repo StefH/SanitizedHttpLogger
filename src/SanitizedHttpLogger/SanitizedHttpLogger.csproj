@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net48;netstandard2.0;netstandard2.1;net6.0;net7.0;net8.0</TargetFrameworks>
+		<TargetFrameworks>net48;netstandard2.0;netstandard2.1;net6.0;net7.0;net8.0;net10.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
 		<ApplicationIcon>../../resources/icon.ico</ApplicationIcon>
 		<Copyright>Copyright © Stef Heyenrath</Copyright>
 		<Authors>Stef Heyenrath</Authors>
@@ -22,8 +23,10 @@
 
 	<ItemGroup>
 		<Compile Include="..\SanitizedHttpClientLogger\Options\SanitizedHttpLoggerOptions.cs" Link="Options\SanitizedHttpLoggerOptions.cs" />
-		<Compile Include="..\SanitizedHttpClientLogger\Services\IRequestUriReplacer.cs" Link="Services\IRequestUriReplacer.cs" />
-		<Compile Include="..\SanitizedHttpClientLogger\Services\RequestUriReplacer.cs" Link="Services\RequestUriReplacer.cs" />
+		<Compile Include="..\SanitizedHttpClientLogger\Services\IUriReplacer.cs" Link="Services\IUriReplacer.cs" />
+		<Compile Include="..\SanitizedHttpClientLogger\Services\UriReplacer.cs" Link="Services\UriReplacer.cs" />
+    <Compile Include="..\SanitizedHttpClientLogger\Services\IHttpHeadersSanitizer.cs" Link="Services\IHttpHeadersSanitizer.cs" />
+    <Compile Include="..\SanitizedHttpClientLogger\Services\HttpHeadersSanitizer.cs" Link="Services\HttpHeadersSanitizer.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -32,10 +35,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
 		<PackageReference Include="Nullable" Version="1.3.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -66,5 +65,10 @@
 		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
 	</ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net10.0' ">
+    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.0" />
+  </ItemGroup>
 
 </Project>

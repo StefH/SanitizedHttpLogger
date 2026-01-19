@@ -48,7 +48,8 @@ public static class ServiceCollectionExtensions
 
         return services
             .AddOptionsWithDataAnnotationValidation(options)
-            .AddSingleton<IRequestUriReplacer, RequestUriReplacer>()
+            .AddSingleton<IUriReplacer, UriReplacer>()
+            .AddSingleton<IHttpHeadersSanitizer, HttpHeadersSanitizer>()
             .Replace(ServiceDescriptor.Singleton<IHttpMessageHandlerBuilderFilter, ReplaceLoggingHttpMessageHandlerBuilderFilter>());
     }
 }
