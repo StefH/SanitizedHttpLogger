@@ -14,15 +14,16 @@ internal class SanitizedLogger(ILogger logger, IUriReplacer uriReplacer, IHttpHe
         var sanitizedRequestUri = SanitizeUri(request);
         var stopwatch = ValueStopwatch.StartNew();
 
+        HttpResponseMessage? response = null;
         try
         {
             LogRequest(request, sanitizedRequestUri);
-            var response = base.Send(request, cancellationToken);
+            response = base.Send(request, cancellationToken);
             return LogResponse(request, sanitizedRequestUri, response, stopwatch);
         }
         catch (Exception exception)
         {
-            LogResponseAsWarning(exception, request, sanitizedRequestUri, stopwatch);
+            LogResponseAsWarning(exception, request, sanitizedRequestUri, response, stopwatch);
             throw;
         }
     }
@@ -35,15 +36,16 @@ internal class SanitizedLogger(ILogger logger, IUriReplacer uriReplacer, IHttpHe
         var sanitizedRequestUri = SanitizeUri(request);
         var stopwatch = ValueStopwatch.StartNew();
 
+        HttpResponseMessage? response = null;
         try
         {
             LogRequest(request, sanitizedRequestUri);
-            var response = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+            response = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
             return LogResponse(request, sanitizedRequestUri, response, stopwatch);
         }
         catch (Exception exception)
         {
-            LogResponseAsWarning(exception, request, sanitizedRequestUri, stopwatch);
+            LogResponseAsWarning(exception, request, sanitizedRequestUri, response, stopwatch);
             throw;
         }
     }
@@ -70,20 +72,20 @@ internal class SanitizedLogger(ILogger logger, IUriReplacer uriReplacer, IHttpHe
 
         if (logger.IsEnabled(LogLevel.Trace))
         {
-            var headers = headersReplacer.Replace(request.Headers);
+            var headers = headersReplacer.Replace(response.Headers);
             logger.LogTrace("Response Headers:{Headers}", Environment.NewLine + string.Join(Environment.NewLine, headers.Select(h => $"{h.Key}: {string.Join(", ", h.Value)}")));
         }
 
         return response;
     }
 
-    private void LogResponseAsWarning(Exception exception, HttpRequestMessage request, object? sanitizedRequestUri, ValueStopwatch stopwatch)
+    private void LogResponseAsWarning(Exception exception, HttpRequestMessage request, object? sanitizedRequestUri, HttpResponseMessage? response, ValueStopwatch stopwatch)
     {
         logger.LogWarning(exception, "HTTP request {Method} {SanitizedUri} failed to respond in {ElapsedTime}ms", request.Method, sanitizedRequestUri, stopwatch.GetElapsedTime().TotalMilliseconds.ToString("F1"));
 
-        if (logger.IsEnabled(LogLevel.Trace))
+        if (logger.IsEnabled(LogLevel.Trace) && response != null)
         {
-            var headers = headersReplacer.Replace(request.Headers);
+            var headers = headersReplacer.Replace(response.Headers);
             logger.LogTrace("Response Headers:{Headers}", Environment.NewLine + string.Join(Environment.NewLine, headers.Select(h => $"{h.Key}: {string.Join(", ", h.Value)}")));
         }
     }

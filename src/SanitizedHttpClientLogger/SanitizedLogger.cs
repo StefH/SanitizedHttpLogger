@@ -30,7 +30,7 @@ internal class SanitizedLogger(ILogger<SanitizedLogger> logger, IUriReplacer uri
 
         if (logger.IsEnabled(LogLevel.Trace))
         {
-            var headers = headersReplacer.Replace(request.Headers);
+            var headers = headersReplacer.Replace(response.Headers);
             logger.LogTrace("Response Headers:{Headers}", Environment.NewLine + string.Join(Environment.NewLine, headers.Select(h => $"{h.Key}: {string.Join(", ", h.Value)}")));
         }
     }
@@ -41,9 +41,9 @@ internal class SanitizedLogger(ILogger<SanitizedLogger> logger, IUriReplacer uri
 
         logger.LogWarning(exception, "HTTP request {Method} {SanitizedUri} failed to respond in {ElapsedTime}ms", request.Method, SanitizeUri(request), elapsed.TotalMilliseconds.ToString("F1"));
 
-        if (logger.IsEnabled(LogLevel.Trace))
+        if (logger.IsEnabled(LogLevel.Trace) && response != null)
         {
-            var headers = headersReplacer.Replace(request.Headers);
+            var headers = headersReplacer.Replace(response.Headers);
             logger.LogTrace("Response Headers:{Headers}", Environment.NewLine + string.Join(Environment.NewLine, headers.Select(h => $"{h.Key}: {string.Join(", ", h.Value)}")));
         }
     }
