@@ -37,7 +37,7 @@ $ dotnet add package SanitizedHttpLogger
 // This regex pattern will match any part of a string that starts with "apikey=" (in a case-insensitive manner)
 // followed by any number of characters that are not an ampersand.
 services.UseSanitizedHttpLogger(o => 
-    o.Replacements.Add("(?i)apikey=[^&]*", "apikey=xxx")
+    o.UriReplacements.Add("(?i)apikey=[^&]*", "apikey=xxx")
 );
 ```
 

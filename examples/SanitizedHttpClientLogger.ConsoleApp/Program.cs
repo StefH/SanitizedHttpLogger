@@ -45,9 +45,9 @@ static class Program
             )
             .RespondWith(Response.Create()
                 .WithBody("Test")
-                .WithHeader("X-Api-Key", "server-secret")
-                .WithHeader("X-Api-Key2", "server-secret2")
-                .WithHeader("Authorization", "Bearer 1234")
+                .WithHeader("Response-X-Api-Key", "server-secret")
+                .WithHeader("Response-X-Api-Key2", "server-secret2")
+                .WithHeader("Response-Authorization", "Bearer 1234")
                 .WithStatusCode(HttpStatusCode.OK)
             );
         mockServer
@@ -56,6 +56,9 @@ static class Program
             )
             .RespondWith(Response.Create()
                 .WithStatusCode(HttpStatusCode.InternalServerError)
+                .WithHeader("Response-X-Api-Key", "server-secret")
+                .WithHeader("Response-X-Api-Key2", "server-secret2")
+                .WithHeader("Response-Authorization", "Bearer 1234")
             );
 
         services
