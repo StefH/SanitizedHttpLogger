@@ -1,4 +1,4 @@
-# 0.0.4 (02 July 2025)
-- #3 Log SanitizedUri as Uri instead of string [enhancement]
+# 0.1.0 (19 January 2026)
+- #4 Also sanitize request- and response headers
 
 The full release notes can be found here: https://github.com/StefH/SanitizedHttpLogger/blob/main/ReleaseNotes.md

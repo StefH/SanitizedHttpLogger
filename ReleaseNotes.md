@@ -1,3 +1,6 @@
+# 0.1.0 (19 January 2026)
+- [#4](https://github.com/StefH/SanitizedHttpLogger/pull/4) - Also sanitize request- and response headers contributed by [StefH](https://github.com/StefH)
+
 # 0.0.4 (02 July 2025)
 - [#3](https://github.com/StefH/SanitizedHttpLogger/pull/3) - Log SanitizedUri as Uri instead of string [enhancement] contributed by [StefH](https://github.com/StefH)
 

@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Microsoft.Extensions.Options;
 using SanitizedHttpClientLogger.Options;
 
@@ -7,14 +6,14 @@ namespace SanitizedHttpClientLogger.Services;
 
 internal class UriReplacer : IUriReplacer
 {
-    private readonly ConcurrentDictionary<Lazy<Regex>, string> _uriReplacements = new();
+    private readonly Dictionary<Lazy<Regex>, string> _uriReplacements = new();
 
     public UriReplacer(IOptions<SanitizedHttpLoggerOptions> options)
     {
         var uriReplacements = Guard.NotNull(options.Value).UriReplacements;
         foreach (var replacement in uriReplacements)
         {
-            _uriReplacements.TryAdd(new Lazy<Regex>(() => new Regex(replacement.Key, RegexOptions.Compiled, TimeSpan.FromMilliseconds(100))), replacement.Value);
+            _uriReplacements.Add(new Lazy<Regex>(() => new Regex(replacement.Key, RegexOptions.Compiled, TimeSpan.FromMilliseconds(100))), replacement.Value);
         }
     }
 
