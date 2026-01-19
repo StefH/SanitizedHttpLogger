@@ -30,7 +30,7 @@ internal class SanitizedLogger(ILogger<SanitizedLogger> logger, IUriReplacer uri
 
         if (logger.IsEnabled(LogLevel.Trace))
         {
-            var headers = headersReplacer.Replace(request.Headers);
+            var headers = headersReplacer.Replace(response.Headers);
             logger.LogTrace("Response Headers:{Headers}", Environment.NewLine + string.Join(Environment.NewLine, headers.Select(h => $"{h.Key}: {string.Join(", ", h.Value)}")));
         }
     }
@@ -43,8 +43,16 @@ internal class SanitizedLogger(ILogger<SanitizedLogger> logger, IUriReplacer uri
 
         if (logger.IsEnabled(LogLevel.Trace))
         {
-            var headers = headersReplacer.Replace(request.Headers);
-            logger.LogTrace("Response Headers:{Headers}", Environment.NewLine + string.Join(Environment.NewLine, headers.Select(h => $"{h.Key}: {string.Join(", ", h.Value)}")));
+            if (response is not null)
+            {
+                var headers = headersReplacer.Replace(response.Headers);
+                logger.LogTrace("Response Headers:{Headers}", Environment.NewLine + string.Join(Environment.NewLine, headers.Select(h => $"{h.Key}: {string.Join(", ", h.Value)}")));
+            }
+            else
+            {
+                var headers = headersReplacer.Replace(request.Headers);
+                logger.LogTrace("Request Headers:{Headers}", Environment.NewLine + string.Join(Environment.NewLine, headers.Select(h => $"{h.Key}: {string.Join(", ", h.Value)}")));
+            }
         }
     }
 
